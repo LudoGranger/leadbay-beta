@@ -80,6 +80,10 @@
           </div></div>
         <div class="q"><p>Recommend 1 friend <span style="color:var(--muted);font-weight:400">(optional)</span></p>
           <input type="text" name="referral" id="referral" placeholder="Their name"></div>
+        <div class="q"><p>What do you expect to learn from the group? <span style="color:var(--muted);font-weight:400">(optional)</span></p>
+          <textarea name="expect_to_learn" id="expect_to_learn"></textarea></div>
+        <div class="q"><p>Is there anything else you want to bring? <span style="color:var(--muted);font-weight:400">(optional)</span></p>
+          <textarea name="anything_else" id="anything_else"></textarea></div>
       </section>
 
       <label class="consent"><input type="checkbox" id="consent"> <span>I agree to be added to the WhatsApp group and the newsletter. Everything that happens in the group stays off the record and confidential.</span></label>
@@ -137,6 +141,8 @@ $("f").addEventListener("submit", async (e) => {
   body.ai_tools = fd.getAll("ai_tools");
   body.ai_spend = fd.get("ai_spend");
   body.referral = fd.get("referral");
+  body.expect_to_learn = fd.get("expect_to_learn");
+  body.anything_else = fd.get("anything_else");
   body.consent = $("consent").checked;
   if (!body.full_name || !body.email) { err.textContent = "Name and email, please."; return; }
   if (!body.consent) { err.textContent = "Tick the box to join the group."; return; }
