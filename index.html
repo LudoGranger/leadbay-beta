@@ -66,6 +66,7 @@
         <label class="f" for="phone">WhatsApp</label><input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+1 …">
         <label class="f" for="company">Company</label><input id="company" name="company" type="text" autocomplete="organization">
         <label class="f" for="title">Role</label><input id="title" name="title" type="text" autocomplete="organization-title">
+        <label class="f" for="based_in">Where are you based?</label><input id="based_in" name="based_in" type="text" placeholder="City, country">
         <label class="f" for="linkedin_url">LinkedIn</label><input id="linkedin_url" name="linkedin_url" type="url" placeholder="https://linkedin.com/in/…">
       </section>
 
@@ -110,7 +111,7 @@
 <script>
 const API = "https://pzhjwclpluxbfopctyot.supabase.co/functions/v1/beta-signup";
 const t = new URLSearchParams(location.search).get("t");
-const FIELDS = ["full_name","email","phone","linkedin_url","company","title"];
+const FIELDS = ["full_name","email","phone","linkedin_url","company","title","based_in"];
 const $ = (id) => document.getElementById(id);
 
 if (t) {
