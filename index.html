@@ -106,8 +106,8 @@ if (t) {
     let n = 0;
     for (const f of FIELDS) if (known[f]) { $(f).value = known[f]; $(f).classList.add("known"); n++; }
     const first = (known.full_name || "").split(" ")[0];
-    if (first) $("hello").textContent = "Hi " + first + " 👋";
-    if (n) { $("me-title").textContent = "Is this you?"; $("me-hint").textContent = "Share your info here so I can personally reach out when it makes sense and help you along the way. We filled in what we know: fix anything that's wrong."; }
+    
+    if (n) { $("me-title").textContent = (first ? "Hi " + first + " 👋 " : "") + "Is this you?"; $("me-hint").textContent = "Share your info here so I can personally reach out when it makes sense and help you along the way. We filled in what we know: fix anything that's wrong."; }
   }).catch(() => {});
 }
 
@@ -122,8 +122,8 @@ async function lookupEmail() {
     if (!known) return;
     for (const f of ["full_name","company","title"]) if (known[f] && !$(f).value) { $(f).value = known[f]; $(f).classList.add("known"); }
     const first = (known.full_name || "").split(" ")[0];
-    if (first) $("hello").textContent = "Hi " + first + " 👋";
-    $("me-title").textContent = "Is this you?";
+    
+    $("me-title").textContent = (first ? "Hi " + first + " 👋 " : "") + "Is this you?";
   } catch (_) {}
 }
 $("email").addEventListener("blur", lookupEmail);
