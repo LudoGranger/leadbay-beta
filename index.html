@@ -43,8 +43,8 @@
 <body>
 <main>
   <div id="form-view">
-    <div class="brand">LEADBAY LABS · YC F25</div>
-    <h1 id="hello">Join the beta</h1>
+    <div class="brand">LEADBAY LABS · BY THE FOUNDERS OF LEADBAY (YC F25)</div>
+    <h1 id="hello">Join our community to build your life at the speed of play</h1>
     <p class="lead" id="lead">2 new AI products in your hands every week, before they launch. Free. A direct line with the founders. 1 minute.</p>
 
     <form id="f" novalidate>
@@ -110,6 +110,24 @@ if (t) {
     if (n) { $("me-title").textContent = "Is this you?"; $("me-hint").textContent = "Share your info here so I can personally reach out when it makes sense and help you along the way. We filled in what we know: fix anything that's wrong."; }
   }).catch(() => {});
 }
+
+// Open link: when the email matches someone we know, fill the empty name, company and role.
+let looked = "";
+async function lookupEmail() {
+  const e = $("email").value.trim().toLowerCase();
+  if (t || e === looked || !/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/.test(e)) return;
+  looked = e;
+  try {
+    const { known } = await (await fetch(API + "?email=" + encodeURIComponent(e))).json();
+    if (!known) return;
+    for (const f of ["full_name","company","title"]) if (known[f] && !$(f).value) { $(f).value = known[f]; $(f).classList.add("known"); }
+    const first = (known.full_name || "").split(" ")[0];
+    if (first) $("hello").textContent = "Hi " + first + " 👋";
+    $("me-title").textContent = "Is this you?";
+  } catch (_) {}
+}
+$("email").addEventListener("blur", lookupEmail);
+$("email").addEventListener("input", () => { clearTimeout(window._lt); window._lt = setTimeout(lookupEmail, 600); });
 
 $("f").addEventListener("submit", async (e) => {
   e.preventDefault();
