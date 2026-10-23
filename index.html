@@ -60,38 +60,32 @@
       </section>
 
       <section>
-        <div class="q"><p>Claude or ChatGPT at work?</p>
-          <div class="opts" data-name="ai_use" data-type="radio">
-            <label><input type="radio" name="ai_use" value="daily">Every day</label>
-            <label><input type="radio" name="ai_use" value="sometimes">Sometimes</label>
-            <label><input type="radio" name="ai_use" value="not_yet">Not yet</label>
-          </div></div>
-        <div class="q"><p>Paid plan?</p>
+        <div class="q"><p>Which AI do you use at work?</p>
           <div class="opts">
-            <label><input type="checkbox" name="paid_plan" value="claude">Claude Pro / Max</label>
-            <label><input type="checkbox" name="paid_plan" value="chatgpt">ChatGPT Plus / Pro</label>
-            <label><input type="checkbox" name="paid_plan" value="other">Other</label>
-            <label><input type="checkbox" name="paid_plan" value="none">None</label>
+            <label><input type="checkbox" name="ai_tools" value="claude">Claude</label>
+            <label><input type="checkbox" name="ai_tools" value="chatgpt">ChatGPT</label>
+            <label><input type="checkbox" name="ai_tools" value="other">Other</label>
+            <label><input type="checkbox" name="ai_tools" value="none">None yet</label>
           </div></div>
-        <div class="q"><p>How do you want to test?</p>
+        <div class="q"><p>How much do you spend on AI per month?</p>
           <div class="opts">
-            <label><input type="checkbox" name="test_mode" value="solo">On my own</label>
-            <label><input type="checkbox" name="test_mode" value="demo">15-min demo</label>
-            <label><input type="checkbox" name="test_mode" value="workshop">Group workshop</label>
+            <label><input type="radio" name="ai_spend" value="0">$0</label>
+            <label><input type="radio" name="ai_spend" value="under_25">Under $25</label>
+            <label><input type="radio" name="ai_spend" value="25_100">$25–100</label>
+            <label><input type="radio" name="ai_spend" value="100_250">$100–250</label>
+            <label><input type="radio" name="ai_spend" value="250_plus">$250+</label>
           </div></div>
-        <div class="q"><p>What eats most of your time in prospecting? <span style="color:var(--muted);font-weight:400">(optional)</span></p>
-          <textarea name="pain" id="pain"></textarea></div>
       </section>
 
-      <label class="consent"><input type="checkbox" id="consent"> <span>OK for a newsletter and a WhatsApp line with Ludo. Betas stay between us.</span></label>
+      <label class="consent"><input type="checkbox" id="consent"> <span>I agree to be added to the WhatsApp group and the newsletter. Everything that happens in the group stays off the record and confidential.</span></label>
       <div class="err" id="err"></div>
-      <button type="submit" id="go">Join</button>
+      <button type="submit" id="go">Join the life at the speed of play</button>
     </form>
   </div>
 
   <div id="done-view" class="done hidden">
     <h1>You're in 🙌</h1>
-    <p class="lead">Ludo will reach out on WhatsApp with the first product.</p>
+    <p class="lead">Ludo will add you to the WhatsApp group.</p>
   </div>
 </main>
 <script>
@@ -135,13 +129,11 @@ $("f").addEventListener("submit", async (e) => {
   const fd = new FormData(e.target);
   const body = { t };
   for (const f of FIELDS) body[f] = fd.get(f);
-  body.ai_use = fd.get("ai_use");
-  body.paid_plan = fd.getAll("paid_plan");
-  body.test_mode = fd.getAll("test_mode");
-  body.pain = fd.get("pain");
+  body.ai_tools = fd.getAll("ai_tools");
+  body.ai_spend = fd.get("ai_spend");
   body.consent = $("consent").checked;
   if (!body.full_name || !body.email) { err.textContent = "Name and email, please."; return; }
-  if (!body.consent) { err.textContent = "Tick the box so we can send you the betas."; return; }
+  if (!body.consent) { err.textContent = "Tick the box to join the group."; return; }
   $("go").disabled = true;
   try {
     const r = await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
